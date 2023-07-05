@@ -10,7 +10,15 @@
 killall -q polybar
 
 # Wait until the processes have been shut down
-while pgrep -u $UID -x polybar > /dev/null; do sleep 1; done
+#while pgrep -x polybar > /dev/null; do sleep 1; done
+#
+while true; do
+  # Check if mpv process is running
+  if ! pgrep mpv > /dev/null; then
+    break
+  fi
+  sleep 1  # Wait for 1 second before checking again
+done
 
 desktop=$(echo $DESKTOP_SESSION)
 count=$(xrandr --query | grep " connected" | cut -d" " -f1 | wc -l)
